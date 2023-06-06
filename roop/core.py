@@ -159,6 +159,14 @@ def process_video_multi_cores(source_img, frame_paths):
         POOL.close()
         POOL.join()
 
+def NewFileName(ext: str):
+    import random
+    from datetime import datetime
+    r = random.randint(0,255)
+    d = datetime.now()
+    filen = f"{d.year}{d.month}{d.day}{d.hour}{d.minute}{d.second}_{str(r)}{ext}"
+    return filen
+
 
 def start(preview_callback = None):
     if not args.source_img or not os.path.isfile(args.source_img):
@@ -168,8 +176,8 @@ def start(preview_callback = None):
         print("\n[WARNING] Please select a video/image to swap face in.")
         return
     if not args.output_file:
-        target_path = args.target_path
-        args.output_file = rreplace(target_path, "/", "/swapped-", 1) if "/" in target_path else "swapped-" + target_path
+        print("\n[WARNING] Please give an output.")
+        return
     target_path = args.target_path
     test_face = get_face_single(cv2.imread(args.source_img))
     if not test_face:
