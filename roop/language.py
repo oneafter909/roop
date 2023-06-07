@@ -1,0 +1,33 @@
+EN_en = [
+"Preview", 
+"Select a face",
+"Select a target",
+"All Files",
+"Videos",
+"roop",
+"Donate to project <3",
+"https://github.com/sponsors/s0md3v",
+"Process all faces in frame",
+"Limit FPS to 30",
+"Keep frames dir",
+"Start",
+"Preview",
+"Status: waiting for input...",
+]
+
+it_IT = [
+"Anteprima", 
+"Seleziona un volto",
+"Seleziona un target",
+"Tutti i files",
+"Video",
+"roop",
+"Contribuisci al progetto <3",
+"https://github.com/sponsors/s0md3v",
+"Processa tutti i volti del frame",
+"Limita a 30 FPS",
+"Mantieni i frame nella directory",
+"Avvia",
+"Anteprima",
+"In attesa dell'input",
+]

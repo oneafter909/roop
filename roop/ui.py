@@ -5,6 +5,7 @@ import webbrowser
 from tkinter import filedialog
 from tkinter.filedialog import asksaveasfilename
 import threading
+from roop.language import it_IT as lang
 
 from roop.utils import is_img
 
@@ -18,7 +19,7 @@ def create_preview(parent):
     # Override close button
     preview_window.protocol("WM_DELETE_WINDOW", hide_preview)
     preview_window.withdraw()
-    preview_window.title("Preview")
+    preview_window.title(lang[0])
     preview_window.configure(bg="red")
     preview_window.resizable(width=False, height=False)
 
@@ -89,7 +90,7 @@ def update_preview(frame):
 
 def select_face(select_face_handler: Callable[[str], None]):
     if select_face_handler:
-        path = filedialog.askopenfilename(title="Select a face")
+        path = filedialog.askopenfilename(title=lang[1])
         preview_face(path)
         return select_face_handler(path)
     return None
@@ -110,7 +111,7 @@ def update_slider(get_video_frame, create_test_preview, video_path, frames_amoun
 
 
 def analyze_target(select_target_handler: Callable[[str], Tuple[int, Any]], target_path: tk.StringVar, frames_amount: tk.IntVar):    
-    path = filedialog.askopenfilename(title="Select a target")
+    path = filedialog.askopenfilename(title=lang[2])
     target_path.set(path)
     amount, frame = select_target_handler(path)
     frames_amount.set(amount)
@@ -130,7 +131,7 @@ def save_file(save_file_handler: Callable[[str], None], target_path: str):
         filename, ext = 'output.png', '.png'
 
     if save_file_handler:
-        return save_file_handler(asksaveasfilename(initialfile=filename, defaultextension=ext, filetypes=[("All Files","*.*"),("Videos","*.mp4")]))
+        return save_file_handler(asksaveasfilename(initialfile=filename, defaultextension=ext, filetypes=[(lang[3],"*.*"),(lang[4],"*.mp4")]))
     return None
 
 
@@ -246,7 +247,7 @@ def init(
 
     window = tk.Tk()
     window.geometry("600x700")
-    window.title("roop")
+    window.title(lang[5])
     window.configure(bg="#2d3436")
     window.resizable(width=False, height=False)
 
@@ -258,7 +259,7 @@ def init(
     preview = create_preview(window)
 
     # Contact information
-    support_link = tk.Label(window, text="Donate to project <3", fg="#fd79a8", bg="#2d3436", cursor="hand2", font=("Arial", 8))
+    support_link = tk.Label(window, text=lang[6], fg="#fd79a8", bg="#2d3436", cursor="hand2", font=("Arial", 8))
     support_link.place(x=180,y=20,width=250,height=30)
     support_link.bind("<Button-1>", lambda e: webbrowser.open("https://github.com/sponsors/s0md3v"))
 
@@ -273,13 +274,13 @@ def init(
     target_label.pack(fill='both', side='top', expand=True)
 
     # Select a face button
-    face_button = create_background_button(window, "Select a face", lambda: [
+    face_button = create_background_button(window, lang[1], lambda: [
         select_face(select_face_handler)
     ])
     face_button.place(x=60,y=320,width=180,height=80)
 
     # Select a target button
-    target_button = create_background_button(window, "Select a target", lambda: [
+    target_button = create_background_button(window, lang[2], lambda: [
         select_target(select_target_handler, target_path, frames_amount),
         update_slider(get_video_frame, create_test_preview, target_path.get(), frames_amount.get())
     ])
@@ -287,29 +288,29 @@ def init(
 
     # All faces checkbox
     all_faces = tk.IntVar(None, initial_values['all_faces'])
-    all_faces_checkbox = create_check(window, "Process all faces in frame", all_faces, toggle_all_faces(toggle_all_faces_handler, all_faces))
+    all_faces_checkbox = create_check(window, lang[8], all_faces, toggle_all_faces(toggle_all_faces_handler, all_faces))
     all_faces_checkbox.place(x=60,y=500,width=240,height=31)
 
     # FPS limit checkbox
     limit_fps = tk.IntVar(None, not initial_values['keep_fps'])
-    fps_checkbox = create_check(window, "Limit FPS to 30", limit_fps, toggle_fps_limit(toggle_fps_limit_handler, limit_fps))
+    fps_checkbox = create_check(window,lang[9], limit_fps, toggle_fps_limit(toggle_fps_limit_handler, limit_fps))
     fps_checkbox.place(x=60,y=475,width=240,height=31)
 
     # Keep frames checkbox
     keep_frames = tk.IntVar(None, initial_values['keep_frames'])
-    frames_checkbox = create_check(window, "Keep frames dir", keep_frames, toggle_keep_frames(toggle_keep_frames_handler, keep_frames))
+    frames_checkbox = create_check(window, lang[10], keep_frames, toggle_keep_frames(toggle_keep_frames_handler, keep_frames))
     frames_checkbox.place(x=60,y=450,width=240,height=31)
 
     # Start button
-    start_button = create_button(window, "Start", lambda: [save_file(save_file_handler, target_path.get()), preview_thread(lambda: start(update_preview))])
+    start_button = create_button(window, lang[11], lambda: [save_file(save_file_handler, target_path.get()), preview_thread(lambda: start(update_preview))])
     start_button.place(x=170,y=560,width=120,height=49)
 
     # Preview button
-    preview_button = create_button(window, "Preview", lambda: open_preview_window(get_video_frame, target_path.get()))
+    preview_button = create_button(window, lang[0], lambda: open_preview_window(get_video_frame, target_path.get()))
     preview_button.place(x=310,y=560,width=120,height=49)
 
     # Status label
-    status_label = tk.Label(window, width=580, justify="center", text="Status: waiting for input...", fg="#2ecc71", bg="#2d3436")
+    status_label = tk.Label(window, width=580, justify="center", text=lang[13], fg="#2ecc71", bg="#2d3436")
     status_label.place(x=10,y=640,width=580,height=30)
 
     return window

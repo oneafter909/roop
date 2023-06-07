@@ -17,7 +17,6 @@ from pathlib import Path
 import multiprocessing as mp
 from opennsfw2 import predict_video_frames, predict_image
 import cv2
-
 import roop.globals
 from roop.swapper import process_video, process_img, process_faces, process_frames
 from roop.utils import is_img, detect_fps, set_fps, create_video, add_audio, extract_frames, rreplace
