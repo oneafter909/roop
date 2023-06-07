@@ -11,6 +11,13 @@ from roop.utils import is_img
 
 max_preview_size = 800
 
+def NewFileName(ext: str):
+    import random
+    from datetime import datetime
+    r = random.randint(0,255)
+    d = datetime.now()
+    filen = f"{d.year}{d.month}{d.day}{d.hour}{d.minute}{d.second}_{str(r)}{ext}"
+    return filen
 
 def create_preview(parent):
     global preview_image_frame, preview_frame_slider, test_button
@@ -125,10 +132,12 @@ def select_target(select_target_handler: Callable[[str], Tuple[int, Any]], targe
 
 
 def save_file(save_file_handler: Callable[[str], None], target_path: str):
-    filename, ext = 'output.mp4', '.mp4'
+    ext = '.mp4'
+    filename = NewFileName(ext)
 
     if is_img(target_path):
-        filename, ext = 'output.png', '.png'
+        ext = '.png'
+        filename = NewFileName(ext)
 
     if save_file_handler:
         return save_file_handler(asksaveasfilename(initialfile=filename, defaultextension=ext, filetypes=[(lang[3],"*.*"),(lang[4],"*.mp4")]))
